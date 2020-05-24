@@ -4,13 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.MainFragment"
-    android:background="#333333">
+    tools:context=".view.MainFragment">
 
    <androidx.recyclerview.widget.RecyclerView
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
+       android:layout_height="match_parent"
        android:id="@+id/stockList"/>
-
-
 </RelativeLayout>

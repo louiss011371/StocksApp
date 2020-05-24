@@ -9,7 +9,7 @@ import com.example.stocksapp.R
 import com.example.stocksapp.model.Stock
 import kotlinx.android.synthetic.main.rows.view.*
 
-class StockListAdapter(private val stockList: List<Stock?>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StockListAdapter(private val stockList: List<Stock>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
       val stockView = LayoutInflater.from(parent.context).inflate(R.layout.rows,parent,false)

@@ -1,5 +1,5 @@
 package com.example.stocksapp.view
 
 interface IStockDetailView {
-    fun onStockResult(symbol: String)
+    fun onStockDetailResult(symbol: String)
 }

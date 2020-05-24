@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class DetailFragment : Fragment(), IStockDetailView {
-    override fun onStockResult(symbol: String) {
+    override fun onStockDetailResult(symbol: String) {
         Toast.makeText(this.context, symbol, Toast.LENGTH_LONG).show()
         println("symbolName.text = (${symbol})")
         symbolName.text = symbol
@@ -40,11 +40,6 @@ class DetailFragment : Fragment(), IStockDetailView {
         callApi()
         return stockListView
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     fun callApi() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://sandbox.iexapis.com")
