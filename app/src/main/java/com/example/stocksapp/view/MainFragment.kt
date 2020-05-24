@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.stocksapp.R
 import com.example.stocksapp.helpers.Api
 import com.example.stocksapp.model.Stock
-import com.example.stocksapp.presenter.MainContract
-import com.example.stocksapp.presenter.MainPresenter
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_main.*
+import com.example.stocksapp.presenter.IStockPresenter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,27 +18,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class MainFragment : Fragment(), MainContract.View {
-    private lateinit var presenter: MainPresenter
+class MainFragment : Fragment(), IStockDetailView{
 
+    internal lateinit var stockPresenter: IStockPresenter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         val stockListView : View = inflater.inflate(R.layout.fragment_main, null, false)
-        Log.d("log on onCreateView","test")
-        presenter = MainPresenter().also {
-            it.attachView(this)
-        }
+
         callApi()
         return stockListView
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     fun callApi() {
         val retrofit = Retrofit.Builder()
@@ -55,31 +46,30 @@ class MainFragment : Fragment(), MainContract.View {
 
         api.fetchAllStock().enqueue(object : Callback<Map<String, Stock>> {
             @SuppressLint("LongLogTag")
-            override fun onResponse(call: Call<Map<String, Stock>>, response: Response<Map<String, Stock>>
+            override fun onResponse(
+                call: Call<Map<String, Stock>>, response: Response<Map<String, Stock>>
             ) {
                 println("called")
-                //  presenter.loadResponse(response)
-                println(Gson().toJson(response))
-                println(response.body()?.get("AAPL")?.quote?.companyName)
-                println(response.body()?.get("FB")?.quote?.companyName)
-                println(response.body()?.get("IBM")?.quote?.companyName)
+                println("Main + ${response.body()?.get("AAPL")?.quote?.companyName}")
             }
-
             override fun onFailure(call: Call<Map<String, Stock>>, t: Throwable) {
 
             }
         })
-
-//    override fun onStockLoaded(symbolNameStr: String, openValueStr: String, closeValueStr: String) {
-//        symbolName?.text = symbolNameStr
-//        openValue?.text = openValueStr
-//        closeValue?.text = closeValueStr
-//        println("openValue.text = (${openValue.text})")
-//    }
     }
 
-    override fun onDestroy() {
-        presenter.detachView()
-        super.onDestroy()
+    override fun onStockResult(symbol: String) {
+        // show symbolName -> symbolName Text
     }
+
+
+//        val recyclerView = view?.findViewById<RecyclerView>(R.id.stockList)
+//        println(recyclerView)
+//        recyclerView?.hasFixedSize()
+//        val layoutManager = LinearLayoutManager(this.context)
+//        layoutManager.orientation = LinearLayoutManager.VERTICAL
+//        recyclerView?.layoutManager = layoutManager
+//        adapter = StockListAdapter(stockList)
+//        recyclerView?.adapter = adapter
+
 }
