@@ -1,13 +1,11 @@
 package com.example.stocksapp.view
 
-import android.annotation.SuppressLint
+
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 
 import com.example.stocksapp.R
 import com.example.stocksapp.helpers.Api
@@ -21,12 +19,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class DetailFragment : Fragment(), IStockDetailView {
-    override fun onStockDetailResult(symbol: String) {
-        Toast.makeText(this.context, symbol, Toast.LENGTH_LONG).show()
-        println("symbolName.text = (${symbol})")
+    override fun onStockDetailResult(symbol: String, latestPrice: String, openPrice: String, closePrice: String) {
         symbolName.text = symbol
+        latestPriceText.text = latestPrice
+        openPriceText.text = openPrice
+        closePriceText.text = closePrice
     }
 
     var detailPresenter: IDetailStockPresenter? = null
@@ -45,24 +43,16 @@ class DetailFragment : Fragment(), IStockDetailView {
             .baseUrl("https://sandbox.iexapis.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        Log.d("api", retrofit.toString())
         val api = retrofit.create(Api::class.java)
-
-        println("no called")
-
         api.fetchAllStock().enqueue(object : Callback<Map<String, Stock>> {
-            @SuppressLint("LongLogTag")
             override fun onResponse(
                 call: Call<Map<String, Stock>>, response: Response<Map<String, Stock>>
             ) {
                 println("called")
                 detailPresenter?.loadResponse(response)
             }
-
             override fun onFailure(call: Call<Map<String, Stock>>, t: Throwable) {
-
             }
         })
-
     }
 }

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/detailfragment"
     tools:context=".view.DetailFragment">
 
     <LinearLayout
@@ -49,7 +50,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="194,400"
+                android:text="price"
+                android:id="@+id/latestPriceText"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -72,7 +74,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:padding="5dp"
-            android:id="@+id/openValue"
+            android:id="@+id/openPriceText"
             android:text="number1" />
 
         <TextView
@@ -88,7 +90,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:padding="5dp"
-            android:id="@+id/closeValue"
+            android:id="@+id/closePriceText"
             android:text="number2"
             />
     </LinearLayout>
@@ -141,10 +143,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="login "
-        android:id="@+id/btn_login"/>
-
 </LinearLayout>

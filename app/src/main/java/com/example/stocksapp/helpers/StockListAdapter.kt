@@ -9,7 +9,7 @@ import com.example.stocksapp.R
 import com.example.stocksapp.model.Stock
 import kotlinx.android.synthetic.main.rows.view.*
 
-class StockListAdapter(private val stockList: List<Stock>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StockListAdapter(private val stockList: List<Stock>, val listener: (Stock) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
       val stockView = LayoutInflater.from(parent.context).inflate(R.layout.rows,parent,false)
@@ -32,16 +32,18 @@ class StockListAdapter(private val stockList: List<Stock>) : RecyclerView.Adapte
 //    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        stockList[position]?.let { (holder as ViewHolder).bind(it) }
+        stockList[position]?.let { (holder as ViewHolder).bind(it, listener) }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(stock: Stock) {
+        fun bind(stock: Stock, listener: (Stock) -> Unit) {
             itemView.symbolNames.text = stock.quote.symbol
+            itemView.companyName.text = stock.quote.companyName
+            itemView.latestPrice.text = stock.quote.latestPrice.toString()
             println("itemView.symbolNames.text = ${itemView.symbolNames.text}")
-//            itemView.setOnClickListener {
-//                listener(movie) // this listener for catching movie which is clicked
-//            }
+            itemView.setOnClickListener {
+                listener(stock) // this listener for catching movie which is clicked
+            }
         }
     }
 

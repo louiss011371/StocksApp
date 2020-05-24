@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stocksapp.R
@@ -15,6 +18,8 @@ import com.example.stocksapp.helpers.StockListAdapter
 import com.example.stocksapp.model.Stock
 import com.example.stocksapp.presenter.IStockListPresenter
 import com.example.stocksapp.presenter.StockListPresenter
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,10 +36,10 @@ class MainFragment : Fragment(), IStockListView {
         val layoutManager = LinearLayoutManager(this.context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView?.layoutManager = layoutManager
-        val adapter = list?.let { StockListAdapter(it) }
+        val adapter = list?.let { StockListAdapter(it) { list: Stock -> stockItemClicked(list)} }
         recyclerView?.adapter = adapter
     }
-    var stockListListPresenter: IStockListPresenter?=null
+    var stockListListPresenter: IStockListPresenter ?= null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,8 +59,6 @@ class MainFragment : Fragment(), IStockListView {
         Log.d("api", retrofit.toString())
         val api = retrofit.create(Api::class.java)
 
-        println("no called")
-
         api.fetchAllStock().enqueue(object : Callback<Map<String, Stock>> {
             @SuppressLint("LongLogTag")
             override fun onResponse(
@@ -64,11 +67,11 @@ class MainFragment : Fragment(), IStockListView {
                 println("called")
                 stockListListPresenter?.loadResponse(response)
             }
-
             override fun onFailure(call: Call<Map<String, Stock>>, t: Throwable) {
-
             }
         })
     }
-
+    private fun stockItemClicked(stockItem: Stock) {
+       Toast.makeText(this.context, stockItem.quote.companyName, Toast.LENGTH_LONG).show()
+    }
 }
