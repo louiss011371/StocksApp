@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.stocksapp.R
-import com.example.stocksapp.helpers.Api
+import com.example.stocksapp.helpers.ApiServices
 import com.example.stocksapp.model.Stock
 import com.example.stocksapp.presenter.DetailStockPresenter
 import com.example.stocksapp.presenter.IDetailStockPresenter
@@ -43,7 +43,7 @@ class DetailFragment : Fragment(), IStockDetailView {
             .baseUrl("https://sandbox.iexapis.com")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val api = retrofit.create(Api::class.java)
+        val api = retrofit.create(ApiServices::class.java)
         api.fetchAllStock().enqueue(object : Callback<Map<String, Stock>> {
             override fun onResponse(
                 call: Call<Map<String, Stock>>, response: Response<Map<String, Stock>>
